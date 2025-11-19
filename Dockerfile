@@ -3,7 +3,7 @@ FROM eclipse-temurin:17-jdk AS builder
 
 WORKDIR /app
 COPY . .
-RUN ./mvnw clean package -DskipTests
+RUN ./mvn clean package -DskipTests
 
 # Stage 2: Run
 FROM eclipse-temurin:17-jre
