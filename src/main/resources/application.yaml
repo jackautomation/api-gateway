@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+
+          routes:
+            - id: jspaccountservice
+              uri: lb://jspaccountservice
+              predicates:
+                - Path=/jspaccountservice/**
+              filters:
+                - RewritePath=/jspaccountservice/(?<segment>.*), /${segment}
+
+            - id: jspbooking
+              uri: lb://jspbooking
+              predicates:
+                - Path=/jspbooking/**
+              filters:
+                - RewritePath=/jspbooking/(?<segment>.*), /${segment}
+
+            - id: jspnotification
+              uri: lb://jspnotification
+              predicates:
+                - Path=/jspnotification/**
+              filters:
+                - RewritePath=/jspnotification/(?<segment>.*), /${segment}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
